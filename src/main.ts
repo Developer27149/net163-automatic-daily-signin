@@ -34,43 +34,45 @@ const tryToSignin = async () => {
 };
 
 const sendMsgToEMail = async (msg: string) => {
-  const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET);
-  oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
-  const accessToken = await oAuth2Client.getAccessToken();
-  const options: SMTPTransport.Options = {
-    from: EMAIL!,
-    to: EMAIL!,
-    subject: "网易云签到报告",
-    html: msg,
-  };
+  if (CLIENT_ID && CLIENT_SECRET && EMAIL && PRIVATE_KEY && REFRESH_TOKEN) {
+    const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET);
+    oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+    const accessToken = await oAuth2Client.getAccessToken();
+    const options: SMTPTransport.Options = {
+      from: EMAIL!,
+      to: EMAIL!,
+      subject: "网易云签到报告",
+      html: msg,
+    };
 
-  const auth = {
-    type: "OAuth2",
-    user: EMAIL,
-    clientId: CLIENT_ID,
-    serviceClient: CLIENT_SECRET,
-    refreshToken: REFRESH_TOKEN,
-    accessToken: accessToken.token,
-    privateKey: PRIVATE_KEY!.replace(/\\n/g, "\n"),
-  };
+    const auth = {
+      type: "OAuth2",
+      user: EMAIL,
+      clientId: CLIENT_ID,
+      serviceClient: CLIENT_SECRET,
+      refreshToken: REFRESH_TOKEN,
+      accessToken: accessToken.token,
+      privateKey: PRIVATE_KEY!.replace(/\\n/g, "\n"),
+    };
 
-  const transporter = nodemailer.createTransport({
-    // @ts-ignore
-    // service: "gmail",
-    host: "smtp.gmail.com",
-    port: 587, // TLS (google requires this port for TLS)
-    secure: false, // Not SSL
-    requireTLS: true, // Uses STARTTLS command (nodemailer-ism)
-    auth,
-  });
+    const transporter = nodemailer.createTransport({
+      // @ts-ignore
+      // service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587, // TLS (google requires this port for TLS)
+      secure: false, // Not SSL
+      requireTLS: true, // Uses STARTTLS command (nodemailer-ism)
+      auth,
+    });
 
-  transporter.sendMail(options, (err, info) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("success", info);
-    }
-  });
+    transporter.sendMail(options, (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("success", info);
+      }
+    });
+  }
 };
 
 // login and signin
@@ -82,9 +84,7 @@ const sendMsgToEMail = async (msg: string) => {
     );
   } catch (error: any) {
     try {
-      if (CLIENT_ID && CLIENT_SECRET && EMAIL && PRIVATE_KEY && REFRESH_TOKEN) {
-        await sendMsgToEMail(error);
-      }
+      await sendMsgToEMail(error);
     } catch (error) {
       console.log("error", error);
     }
