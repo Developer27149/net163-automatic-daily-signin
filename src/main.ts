@@ -33,15 +33,15 @@ const tryToSignin = async () => {
   yunbei({ cookie });
 };
 
-const sendErrorMsg = async (text: string) => {
+const sendMsgToEMail = async (msg: string) => {
   const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET);
   oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
   const accessToken = await oAuth2Client.getAccessToken();
   const options: SMTPTransport.Options = {
     from: EMAIL!,
     to: EMAIL!,
-    subject: "网易云签到工具异常报告",
-    text,
+    subject: "网易云签到报告",
+    html: msg,
   };
 
   const auth = {
@@ -77,9 +77,14 @@ const sendErrorMsg = async (text: string) => {
 (async () => {
   try {
     await tryToSignin();
+    await sendMsgToEMail(
+      new Date().toLocaleString("zh") + ": 🚀 签到成功 ✿✿ヽ(°▽°)ノ✿"
+    );
   } catch (error: any) {
     try {
-      await sendErrorMsg(error);
+      if (CLIENT_ID && CLIENT_SECRET && EMAIL && PRIVATE_KEY && REFRESH_TOKEN) {
+        await sendMsgToEMail(error);
+      }
     } catch (error) {
       console.log("error", error);
     }
