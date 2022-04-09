@@ -2,7 +2,8 @@ name: 网易云音乐自动签到
 on:
   push: [main]
 
-jobs: Install dependencies
+jobs:
+Install dependencies:
   runs-on: ubuntu-latest
   strategy:
     matrix:
@@ -21,4 +22,3 @@ jobs: Install dependencies
     - uses: borales/actions-yarn@v2.3.0
       with:
         cmd: start # will run `yarn start` command
-   
