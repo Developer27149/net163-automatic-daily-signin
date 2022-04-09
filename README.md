@@ -4,7 +4,7 @@
 
 ### 原理
 
-使用`github action`的功能，定时执行`workflows`，核心脚本利用了`[Binaryify/NeteaseCloudMusicApi: 网易云音乐 Node.js API service](https://github.com/Binaryify/NeteaseCloudMusicApi)`这个`node`库来实现登录和签到。
+使用`github action`的功能，定时执行`workflows`，核心脚本利用了 [Binaryify/NeteaseCloudMusicApi: 网易云音乐 Node.js API service](https://github.com/Binaryify/NeteaseCloudMusicApi) 这个`node`库来实现登录和签到。
 
 ### 使用
 
