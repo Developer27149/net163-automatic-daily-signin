@@ -1,0 +1,24 @@
+name: 网易云音乐自动签到
+on:
+  push: [main]
+
+jobs: Install dependencies
+  runs-on: ubuntu-latest
+  strategy:
+    matrix:
+      node-version: [16.x]
+  steps:
+    - name: checkout repo
+      uses: action/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+    # github 限制每一个 uses 所能执行的命令数为 1，因此只能多次使用 uses
+    - uses: borales/actions-yarn@v2.3.0
+      with:
+        cmd: install # will run `yarn install` command
+    - uses: borales/actions-yarn@v2.3.0
+      with:
+        cmd: build # will run `yarn build` command
+    - uses: borales/actions-yarn@v2.3.0
+      with:
+        cmd: start # will run `yarn start` command
+   
