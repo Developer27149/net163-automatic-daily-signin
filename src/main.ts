@@ -42,7 +42,7 @@ const sendMsgToEMail = async (msg: string) => {
       from: EMAIL!,
       to: EMAIL!,
       subject: "网易云签到报告",
-      html: msg,
+      html: `<pre>${msg}<pre>`,
     };
 
     const auth = {
