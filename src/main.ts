@@ -79,6 +79,7 @@ const sendMsgToEMail = async (msg: string) => {
 (async () => {
   try {
     await tryToSignin();
+    console.log('签到成功！')
     await sendMsgToEMail(
       new Date().toLocaleString("zh") + ": 🚀 签到成功 ✿✿ヽ(°▽°)ノ✿"
     );
