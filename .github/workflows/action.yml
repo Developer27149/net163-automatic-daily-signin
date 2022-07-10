@@ -1,4 +1,4 @@
-name: 网易云音乐自动签到
+name: 网易云音乐自动签到 -
 on:
   schedule:
     # * is a special character in YAML so you have to quote this string
@@ -28,4 +28,4 @@ jobs:
           cmd: build # will run `yarn build` command
       - uses: borales/actions-yarn@v3.0.0
         with:
-          cmd: start # will run `yarn start` command
+          cmd: start # will run `yarn start` command # test
